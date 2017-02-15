@@ -333,9 +333,9 @@ public class EditorGUI extends javax.swing.JFrame {
     private void search() throws HeadlessException {
         String name;
         name = JOptionPane.showInputDialog(this, "Introduce el texto a buscar");
-        editor.setFindText(name);
 
         if (name != null && !name.isEmpty()) {
+            editor.setFindText(name);
             editor.findText();
         }
     }

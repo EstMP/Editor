@@ -7,6 +7,7 @@ package Editor_de_textos;
 
 import java.awt.HeadlessException;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -311,11 +312,11 @@ public class EditorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemExitActionPerformed
 
     private void jMenuItemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSaveActionPerformed
-        // TODO add your handling code here:
+        saveFile(false);
     }//GEN-LAST:event_jMenuItemSaveActionPerformed
 
     private void jMenuItemSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSaveAsActionPerformed
-        // TODO add your handling code here:
+        saveFile(true);
     }//GEN-LAST:event_jMenuItemSaveAsActionPerformed
 
     private void openFile() throws HeadlessException {
@@ -327,6 +328,25 @@ public class EditorGUI extends javax.swing.JFrame {
             this.setTitle(editor.getCurrentFilePath() + " | " + Editor.FORM_TITLE);
         } else {
             System.out.println("Acceso al archivo cancelado por el usuario.");
+        }
+    }
+
+    private void saveFile(boolean saveAs) {
+        if (editor.getCurrentFilePath().equals("Nuevo documento") || saveAs) {
+            if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                editor.setCurrentFilePath(jFileChooser1.getSelectedFile().toString());
+                writeFile();
+            }
+        } else {
+            writeFile();
+        }
+    }
+
+    private void writeFile() throws HeadlessException {
+        try {
+            editor.writeFile();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 

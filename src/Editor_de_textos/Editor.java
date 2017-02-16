@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class Editor {
      *
      */
     public static final String FORM_TITLE = "Editor de textos";
-    
+
     // DOCUMENTO
     private String currentFilePath;
     private int fontSize;
@@ -150,6 +151,39 @@ public class Editor {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Guardar archivo
+     *
+     * Guarda el documento actual en la ruta especificada por
+     * getCurrentFilePath()
+     *
+     * @throws java.io.IOException
+     */
+    protected void writeFile() throws IOException {
+        File temp, f;
+        PrintWriter out;
+        boolean rename, delete;
+
+        temp = File.createTempFile("editor-save", ".tmp");
+        out = new PrintWriter(temp);
+        out.write(jTextArea1.getText());
+        out.close();
+
+        f = new File(getCurrentFilePath());
+        delete = f.delete();
+        if (!delete && f.exists()) {
+            throw new IOException("Error al escribir el archivo");
+        }
+
+        rename = temp.renameTo(f);
+        if (!rename) {
+            throw new IOException("No se ha renombrado el archivo temporal");
+        }
+
+        nGUI.setTitle(currentFilePath + " | " + FORM_TITLE);
+        jLabelStstus.setText("Guardado en " + getCurrentFilePath());
     }
 
     /**

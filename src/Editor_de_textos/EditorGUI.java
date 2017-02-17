@@ -310,7 +310,7 @@ public class EditorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemFontDownActionPerformed
 
     private void jMenuItemReplaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemReplaceActionPerformed
-        rename();
+        replace();
     }//GEN-LAST:event_jMenuItemReplaceActionPerformed
 
     private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
@@ -366,7 +366,7 @@ public class EditorGUI extends javax.swing.JFrame {
         }
     }
 
-    protected void rename() throws HeadlessException {
+    protected void replace() throws HeadlessException {
         String str, strReplace;
         str = JOptionPane.showInputDialog(this, "Reemplazar");
         strReplace = JOptionPane.showInputDialog(this, "Por");

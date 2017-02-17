@@ -31,11 +31,12 @@ public class Editor {
      *
      */
     public static final String FORM_TITLE = "Editor de textos";
-
+    
     // DOCUMENTO
     private String currentFilePath;
     private int fontSize;
     private int numColumns;
+    private boolean hasChanged;
 
     // BÚSQUEDA
     private String findText;
@@ -101,6 +102,15 @@ public class Editor {
         this.findText = findText;
     }
 
+    /**
+     * Obtiene si se han hecho cambios en el documento
+     *
+     * @return 
+     */
+    public boolean isHasChanged() {
+        return hasChanged;
+    }
+    
     /*------------------------------------------------------------------------*/
     /**
      * Nuevo documento
@@ -111,6 +121,7 @@ public class Editor {
         jLabelStstus.setText("Nuevo archivo");
         this.setCurrentFilePath("Nuevo documento");
         this.update();
+        hasChanged = false;
     }
 
     /**
@@ -121,13 +132,14 @@ public class Editor {
     protected void openFile(File f) {
         try {
             jTextArea1.setText(readFile(f));
+            hasChanged = false;
             jTextArea1.setCaretPosition(0);
 
             numColumns = jTextArea1.getLineCount();
             updateLineCount();
 
             setCurrentFilePath(f.getPath());
-
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(EditorGUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -182,6 +194,7 @@ public class Editor {
             throw new IOException("No se ha renombrado el archivo temporal");
         }
 
+        hasChanged = false;
         nGUI.setTitle(currentFilePath + " | " + FORM_TITLE);
         jLabelStstus.setText("Guardado en " + getCurrentFilePath());
     }
@@ -260,6 +273,7 @@ public class Editor {
      * búsqueda en curso para detenerla
      */
     protected void update() {
+        hasChanged = true;
         nGUI.setTitle(getCurrentFilePath() + " (SIN GUARDAR) | " + FORM_TITLE);
         updateLineCount();
         if (findListIndex != null) {

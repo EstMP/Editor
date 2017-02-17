@@ -264,12 +264,18 @@ public class EditorGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenActionPerformed
-        openFile();
+        if (editor.isHasChanged()) {
+            changes();
+            openFile();
+        } else openFile();
     }//GEN-LAST:event_jMenuItemOpenActionPerformed
 
 
     private void jMenuItemNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewActionPerformed
-        editor.newDoc();
+        if (editor.isHasChanged()) {
+            changes();
+            editor.newDoc();
+        } else editor.newDoc();
     }//GEN-LAST:event_jMenuItemNewActionPerformed
 
     private void jMenuItemFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFindActionPerformed
@@ -320,16 +326,16 @@ public class EditorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSaveAsActionPerformed
 
     private void openFile() throws HeadlessException {
-        File f;
-        int returnVal = jFileChooser1.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            f = jFileChooser1.getSelectedFile();
-            editor.openFile(f);
-            this.setTitle(editor.getCurrentFilePath() + " | " + Editor.FORM_TITLE);
-        } else {
-            System.out.println("Acceso al archivo cancelado por el usuario.");
+            File f;
+            int returnVal = jFileChooser1.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                f = jFileChooser1.getSelectedFile();
+                editor.openFile(f);
+                this.setTitle(editor.getCurrentFilePath() + " | " + Editor.FORM_TITLE);
+            } else {
+                System.out.println("Acceso al archivo cancelado por el usuario.");
+            }
         }
-    }
 
     private void saveFile(boolean saveAs) {
         if (editor.getCurrentFilePath().equals("Nuevo documento") || saveAs) {
@@ -365,6 +371,15 @@ public class EditorGUI extends javax.swing.JFrame {
         str = JOptionPane.showInputDialog(this, "Reemplazar");
         strReplace = JOptionPane.showInputDialog(this, "Por");
         jTextArea1.setText(jTextArea1.getText().replace(str, strReplace));
+    }
+
+    private void changes() throws HeadlessException {
+        int returnVal = JOptionPane.showConfirmDialog(this,
+                "Hay cambios sin guardar\n¿Deseas guardar los cambios?",
+                "Documento sin guardar", JOptionPane.INFORMATION_MESSAGE);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            saveFile(false);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

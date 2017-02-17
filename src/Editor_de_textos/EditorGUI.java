@@ -12,6 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -26,8 +27,14 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
      */
     public EditorGUI() {
         initComponents();
+
         this.editor = new Editor(this, jTextArea1, jLabelFind, jLabelStstus);
         jTextArea1.getDocument().addDocumentListener(this);
+
+        FileNameExtensionFilter FILTER = new FileNameExtensionFilter(
+                "Documentos de texto plano .txt", "txt");
+        jFileChooser1.setFileFilter(FILTER);
+
     }
 
     /**
@@ -318,6 +325,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
     private void openFile() throws HeadlessException {
         File f;
+        jFileChooser1.setSelectedFile(new File(""));
         int returnVal = jFileChooser1.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             f = jFileChooser1.getSelectedFile();
@@ -329,7 +337,8 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
     }
 
     private void saveFile(boolean saveAs) {
-        if (editor.getCurrentFilePath().equals("Nuevo documento") || saveAs) {
+        if (editor.getCurrentFilePath().equals("Nuevo documento.txt") || saveAs) {
+            jFileChooser1.setSelectedFile(new File(editor.getCurrentFilePath()));
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 editor.setCurrentFilePath(jFileChooser1.getSelectedFile().toString());
                 writeFile();

@@ -57,7 +57,7 @@ public class Editor {
      * @param jLabelStstus
      */
     public Editor(EditorGUI nGUI, JTextArea jTextArea1, JLabel jLabelFind, JLabel jLabelStstus) {
-        this.currentFilePath = "Nuevo documento";
+        this.currentFilePath = "Nuevo documento.txt";
         this.findCount = 0;
         this.numColumns = 1;
         this.fontSize = 12;
@@ -120,7 +120,7 @@ public class Editor {
     protected void newDoc() {
         jTextArea1.setText("");
         jLabelStstus.setText("Nuevo archivo");
-        this.setCurrentFilePath("Nuevo documento");
+        this.setCurrentFilePath("Nuevo documento.txt");
         this.update();
         hasChanged = false;
     }

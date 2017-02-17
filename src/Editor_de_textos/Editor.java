@@ -46,7 +46,7 @@ public class Editor {
     // CONTROLES
     private final JTextArea jTextArea1;
     private final JLabel jLabelFind, jLabelStstus;
-    private final EditorGUI nGUI;
+    private final EditorGUI eGUI;
 
     /**
      *
@@ -60,7 +60,7 @@ public class Editor {
         this.findCount = 0;
         this.numColumns = 1;
         this.fontSize = 12;
-        this.nGUI = nGUI;
+        this.eGUI = nGUI;
         this.jTextArea1 = jTextArea1;
         this.jLabelFind = jLabelFind;
         this.jLabelStstus = jLabelStstus;
@@ -195,7 +195,7 @@ public class Editor {
         }
 
         hasChanged = false;
-        nGUI.setTitle(currentFilePath + " | " + FORM_TITLE);
+        eGUI.setTitle(currentFilePath + " | " + FORM_TITLE);
         jLabelStstus.setText("Guardado en " + getCurrentFilePath());
     }
 
@@ -274,7 +274,7 @@ public class Editor {
      */
     protected void update() {
         hasChanged = true;
-        nGUI.setTitle(getCurrentFilePath() + " (SIN GUARDAR) | " + FORM_TITLE);
+        eGUI.setTitle(getCurrentFilePath() + " (SIN GUARDAR) | " + FORM_TITLE);
         updateLineCount();
         if (findListIndex != null) {
             findListIndex = null;
@@ -291,7 +291,7 @@ public class Editor {
 
     @Override
     public String toString() {
-        return "Editor{" + "currentFilePath=" + currentFilePath + ", \nfontSize=" + fontSize + ", \nnumColumns=" + numColumns + ", \nfindText=" + findText + ", \nfindCount=" + findCount + ", \nfindListIndex=" + findListIndex + ", \njTextArea1=" + jTextArea1 + ", \njLabelFind=" + jLabelFind + ", \njLabelStstus=" + jLabelStstus + ", \nnGUI=" + nGUI + '}';
+        return "Editor{" + "currentFilePath=" + currentFilePath + ", \nfontSize=" + fontSize + ", \nnumColumns=" + numColumns + ", \nfindText=" + findText + ", \nfindCount=" + findCount + ", \nfindListIndex=" + findListIndex + ", \njTextArea1=" + jTextArea1 + ", \njLabelFind=" + jLabelFind + ", \njLabelStstus=" + jLabelStstus + ", \neGUI=" + eGUI + '}';
     }
 
 }

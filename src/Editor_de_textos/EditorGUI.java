@@ -265,7 +265,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
     private void jMenuItemOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenActionPerformed
         if (editor.isHasChanged()) {
-            if (changes()) {
+            if (msg(MSG_DOCUMENT_HAS_CHANGED_TITLE, MSG_DOCUMENT_HAS_CHANGED, true)) {
                 openFile();
             }
         } else {
@@ -276,7 +276,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
     private void jMenuItemNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewActionPerformed
         if (editor.isHasChanged()) {
-            if (changes()) {
+            if (msg(MSG_DOCUMENT_HAS_CHANGED_TITLE, MSG_DOCUMENT_HAS_CHANGED, true)) {
                 editor.newDoc();
             }
         } else {
@@ -350,7 +350,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 editor.setCurrentFilePath(jFileChooser1.getSelectedFile().toString());
                 if ((new File(editor.getCurrentFilePath())).exists()) {
-                    if (replaceFile()) {
+                    if (msg(MSG_FILE_REPLACE_TITLE, MSG_FILE_REPLACE, false)) {
                         writeFile();
                     }
                 } else {
@@ -388,29 +388,19 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
         jTextArea1.setText(jTextArea1.getText().replace(str, strReplace));
     }
 
-    private boolean changes() throws HeadlessException {
-        int returnVal = JOptionPane.showConfirmDialog(this, MSG_DOCUMENT_HAS_CHANGED,
-                MSG_DOCUMENT_HAS_CHANGED_TITLE, JOptionPane.INFORMATION_MESSAGE);
+    private boolean msg(String title, String text, boolean save) {
+        int returnVal = JOptionPane.showConfirmDialog(this, text,
+                title, JOptionPane.INFORMATION_MESSAGE);
         switch (returnVal) {
             case JFileChooser.APPROVE_OPTION:
-                saveFile(false);
+                if (save) {
+                    saveFile(false);
+                }
                 return true;
-            case JFileChooser.CANCEL_OPTION:
-                return true;
-            default:
-                return false;
-        }
 
-    }
-
-    private boolean replaceFile() {
-        int returnVal = JOptionPane.showConfirmDialog(this, MSG_FILE_REPLACE,
-                MSG_FILE_REPLACE_TITLE, JOptionPane.INFORMATION_MESSAGE);
-        switch (returnVal) {
-            case JFileChooser.APPROVE_OPTION:
-                return true;
             case JFileChooser.CANCEL_OPTION:
-                return false;
+                return save;
+
             default:
                 return false;
         }

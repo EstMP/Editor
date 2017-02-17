@@ -27,6 +27,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
     public EditorGUI() {
         initComponents();
         this.editor = new Editor(this, jTextArea1, jLabelFind, jLabelStstus);
+        jTextArea1.getDocument().addDocumentListener(this);
     }
 
     /**

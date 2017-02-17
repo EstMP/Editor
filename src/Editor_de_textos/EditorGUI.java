@@ -308,7 +308,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
     }//GEN-LAST:event_jMenuItemFontDownActionPerformed
 
     private void jMenuItemReplaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemReplaceActionPerformed
-        replace();
+        replaceText();
     }//GEN-LAST:event_jMenuItemReplaceActionPerformed
 
     private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
@@ -341,7 +341,14 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
             jFileChooser1.setSelectedFile(new File(editor.getCurrentFilePath()));
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 editor.setCurrentFilePath(jFileChooser1.getSelectedFile().toString());
-                writeFile();
+                if ((new File(editor.getCurrentFilePath())).exists()) {
+                    if (replaceFile()) {
+                        writeFile();
+                    }
+                } else {
+                    writeFile();
+                }
+
             }
         } else {
             writeFile();
@@ -366,7 +373,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
         }
     }
 
-    protected void replace() throws HeadlessException {
+    protected void replaceText() throws HeadlessException {
         String str, strReplace;
         str = JOptionPane.showInputDialog(this, "Reemplazar");
         strReplace = JOptionPane.showInputDialog(this, "Por");
@@ -387,6 +394,20 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
                 return false;
         }
 
+    }
+
+    private boolean replaceFile() {
+        int returnVal = JOptionPane.showConfirmDialog(this,
+                "El archivo de destino ya existe\n¿Deseas reemplazarlo?",
+                "Reemplazar archivo", JOptionPane.INFORMATION_MESSAGE);
+        switch (returnVal) {
+            case JFileChooser.APPROVE_OPTION:
+                return true;
+            case JFileChooser.CANCEL_OPTION:
+                return false;
+            default:
+                return false;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

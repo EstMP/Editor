@@ -17,7 +17,7 @@ import javax.swing.event.DocumentListener;
  *
  * @author EstMP
  */
-public class EditorGUI extends javax.swing.JFrame {
+public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
     private final Editor editor;
 
@@ -27,22 +27,6 @@ public class EditorGUI extends javax.swing.JFrame {
     public EditorGUI() {
         initComponents();
         this.editor = new Editor(this, jTextArea1, jLabelFind, jLabelStstus);
-
-        jTextArea1.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                editor.update();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                editor.update();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-            }
-        });
     }
 
     /**
@@ -267,7 +251,9 @@ public class EditorGUI extends javax.swing.JFrame {
         if (editor.isHasChanged()) {
             changes();
             openFile();
-        } else openFile();
+        } else {
+            openFile();
+        }
     }//GEN-LAST:event_jMenuItemOpenActionPerformed
 
 
@@ -275,7 +261,9 @@ public class EditorGUI extends javax.swing.JFrame {
         if (editor.isHasChanged()) {
             changes();
             editor.newDoc();
-        } else editor.newDoc();
+        } else {
+            editor.newDoc();
+        }
     }//GEN-LAST:event_jMenuItemNewActionPerformed
 
     private void jMenuItemFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFindActionPerformed
@@ -326,16 +314,16 @@ public class EditorGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSaveAsActionPerformed
 
     private void openFile() throws HeadlessException {
-            File f;
-            int returnVal = jFileChooser1.showOpenDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                f = jFileChooser1.getSelectedFile();
-                editor.openFile(f);
-                this.setTitle(editor.getCurrentFilePath() + " | " + Editor.FORM_TITLE);
-            } else {
-                System.out.println("Acceso al archivo cancelado por el usuario.");
-            }
+        File f;
+        int returnVal = jFileChooser1.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            f = jFileChooser1.getSelectedFile();
+            editor.openFile(f);
+            this.setTitle(editor.getCurrentFilePath() + " | " + Editor.FORM_TITLE);
+        } else {
+            System.out.println("Acceso al archivo cancelado por el usuario.");
         }
+    }
 
     private void saveFile(boolean saveAs) {
         if (editor.getCurrentFilePath().equals("Nuevo documento") || saveAs) {
@@ -410,5 +398,19 @@ public class EditorGUI extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        editor.update();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        editor.update();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+    }
 
 }

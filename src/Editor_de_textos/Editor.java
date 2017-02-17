@@ -7,11 +7,12 @@ package Editor_de_textos;
 
 import java.awt.Font;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,7 +32,7 @@ public class Editor {
      *
      */
     public static final String FORM_TITLE = "Editor de textos";
-    
+
     // DOCUMENTO
     private String currentFilePath;
     private int fontSize;
@@ -105,12 +106,12 @@ public class Editor {
     /**
      * Obtiene si se han hecho cambios en el documento
      *
-     * @return 
+     * @return
      */
     public boolean isHasChanged() {
         return hasChanged;
     }
-    
+
     /*------------------------------------------------------------------------*/
     /**
      * Nuevo documento
@@ -131,15 +132,11 @@ public class Editor {
      */
     protected void openFile(File f) {
         try {
-            jTextArea1.setText(readFile(f));
-            hasChanged = false;
-            jTextArea1.setCaretPosition(0);
-
-            numColumns = jTextArea1.getLineCount();
+            readFile(f);
             updateLineCount();
 
             setCurrentFilePath(f.getPath());
-            
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(EditorGUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -149,20 +146,13 @@ public class Editor {
 
     /* Lee el archivo especificado, línea por línea y devuelve un String con el
     documento formado */
-    
-    private String readFile(File f) throws FileNotFoundException, IOException {
-        StringBuilder sb;
-        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-            sb = new StringBuilder();
-            String line = br.readLine();
+    private void readFile(File f) throws FileNotFoundException, IOException {
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        jTextArea1.read(br, null);
+        jTextArea1.getDocument().addDocumentListener(eGUI);
+        br.close();
+        hasChanged = false;
 
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-            }
-        }
-        return sb.toString();
     }
 
     /**
@@ -175,13 +165,13 @@ public class Editor {
      */
     protected void writeFile() throws IOException {
         File temp, f;
-        PrintWriter out;
         boolean rename, delete;
+        BufferedWriter writer;
 
         temp = File.createTempFile("editor-save", ".tmp");
-        out = new PrintWriter(temp);
-        out.write(jTextArea1.getText());
-        out.close();
+        writer = new BufferedWriter(new FileWriter(temp));
+        jTextArea1.write(writer);
+        writer.close();
 
         f = new File(getCurrentFilePath());
         delete = f.delete();

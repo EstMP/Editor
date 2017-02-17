@@ -250,8 +250,9 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
     private void jMenuItemOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenActionPerformed
         if (editor.isHasChanged()) {
-            changes();
-            openFile();
+            if (changes()) {
+                openFile();
+            }
         } else {
             openFile();
         }
@@ -260,8 +261,9 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
     private void jMenuItemNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewActionPerformed
         if (editor.isHasChanged()) {
-            changes();
-            editor.newDoc();
+            if (changes()) {
+                editor.newDoc();
+            }
         } else {
             editor.newDoc();
         }
@@ -362,13 +364,20 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
         jTextArea1.setText(jTextArea1.getText().replace(str, strReplace));
     }
 
-    private void changes() throws HeadlessException {
+    private boolean changes() throws HeadlessException {
         int returnVal = JOptionPane.showConfirmDialog(this,
                 "Hay cambios sin guardar\n¿Deseas guardar los cambios?",
                 "Documento sin guardar", JOptionPane.INFORMATION_MESSAGE);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            saveFile(false);
+        switch (returnVal) {
+            case JFileChooser.APPROVE_OPTION:
+                saveFile(false);
+                return true;
+            case JFileChooser.CANCEL_OPTION:
+                return true;
+            default:
+                return false;
         }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -32,6 +32,7 @@ public class Editor {
      *
      */
     public static final String FORM_TITLE = "Editor de textos";
+    public static final String NEW_DOC_TITLE = "Nuevo documento.txt";
 
     // DOCUMENTO
     private String currentFilePath;
@@ -57,7 +58,7 @@ public class Editor {
      * @param jLabelStstus
      */
     public Editor(EditorGUI nGUI, JTextArea jTextArea1, JLabel jLabelFind, JLabel jLabelStstus) {
-        this.currentFilePath = "Nuevo documento.txt";
+        this.currentFilePath = NEW_DOC_TITLE;
         this.findCount = 0;
         this.numColumns = 1;
         this.fontSize = 12;
@@ -120,7 +121,7 @@ public class Editor {
     protected void newDoc() {
         jTextArea1.setText("");
         jLabelStstus.setText("Nuevo archivo");
-        this.setCurrentFilePath("Nuevo documento.txt");
+        this.setCurrentFilePath(NEW_DOC_TITLE);
         this.update();
         hasChanged = false;
     }

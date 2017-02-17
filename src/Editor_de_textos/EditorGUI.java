@@ -21,12 +21,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
     private final String MSG_DOCUMENT_HAS_CHANGED_TITLE = "Documento sin guardar";
-    private final String MSG_DOCUMENT_HAS_CHANGED = String.format("%s",
-            "Hay cambios sin guardar\n¿Deseas guardar los cambios?");
+    private final String MSG_DOCUMENT_HAS_CHANGED = String.format("%s%n%s",
+            "Hay cambios sin guardar", "¿Deseas guardar los cambios?");
 
     private final String MSG_FILE_REPLACE_TITLE = "Reemplazar archivo";
-    private final String MSG_FILE_REPLACE = String.format("%s",
-            "El archivo de destino ya existe\n¿Deseas reemplazarlo?");
+    private final String MSG_FILE_REPLACE = String.format("%s%n%s",
+            "El archivo de destino ya existe", "¿Deseas reemplazarlo?");
 
     private final Editor editor;
 
@@ -345,7 +345,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
     }
 
     private void saveFile(boolean saveAs) {
-        if (editor.getCurrentFilePath().equals("Nuevo documento.txt") || saveAs) {
+        if (editor.getCurrentFilePath().equals(Editor.NEW_DOC_TITLE) || saveAs) {
             jFileChooser1.setSelectedFile(new File(editor.getCurrentFilePath()));
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 editor.setCurrentFilePath(jFileChooser1.getSelectedFile().toString());

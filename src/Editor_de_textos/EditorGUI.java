@@ -20,6 +20,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
 
+    private final String MSG_DOCUMENT_HAS_CHANGED_TITLE = "Documento sin guardar";
+    private final String MSG_DOCUMENT_HAS_CHANGED = String.format("%s",
+            "Hay cambios sin guardar\n¿Deseas guardar los cambios?");
+
+    private final String MSG_FILE_REPLACE_TITLE = "Reemplazar archivo";
+    private final String MSG_FILE_REPLACE = String.format("%s",
+            "El archivo de destino ya existe\n¿Deseas reemplazarlo?");
+
     private final Editor editor;
 
     /**
@@ -381,9 +389,8 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
     }
 
     private boolean changes() throws HeadlessException {
-        int returnVal = JOptionPane.showConfirmDialog(this,
-                "Hay cambios sin guardar\n¿Deseas guardar los cambios?",
-                "Documento sin guardar", JOptionPane.INFORMATION_MESSAGE);
+        int returnVal = JOptionPane.showConfirmDialog(this, MSG_DOCUMENT_HAS_CHANGED,
+                MSG_DOCUMENT_HAS_CHANGED_TITLE, JOptionPane.INFORMATION_MESSAGE);
         switch (returnVal) {
             case JFileChooser.APPROVE_OPTION:
                 saveFile(false);
@@ -397,9 +404,8 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
     }
 
     private boolean replaceFile() {
-        int returnVal = JOptionPane.showConfirmDialog(this,
-                "El archivo de destino ya existe\n¿Deseas reemplazarlo?",
-                "Reemplazar archivo", JOptionPane.INFORMATION_MESSAGE);
+        int returnVal = JOptionPane.showConfirmDialog(this, MSG_FILE_REPLACE,
+                MSG_FILE_REPLACE_TITLE, JOptionPane.INFORMATION_MESSAGE);
         switch (returnVal) {
             case JFileChooser.APPROVE_OPTION:
                 return true;

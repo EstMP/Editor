@@ -345,7 +345,7 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
     }
 
     private void saveFile(boolean saveAs) {
-        if (editor.getCurrentFilePath().equals(Editor.NEW_DOC_TITLE) || saveAs) {
+        if (editor.isNewFile() || saveAs) {
             jFileChooser1.setSelectedFile(new File(editor.getCurrentFilePath()));
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 if (jFileChooser1.getSelectedFile().exists()) {

@@ -113,6 +113,15 @@ public class Editor {
         return hasChanged;
     }
 
+    /**
+     * Obtiene si es un nuevo documento
+     *
+     * @return 
+     */
+    public boolean isNewFile() {
+        return getCurrentFilePath().equals(NEW_DOC_TITLE);
+    }  
+    
     /*------------------------------------------------------------------------*/
     /**
      * Nuevo documento

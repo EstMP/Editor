@@ -348,24 +348,23 @@ public class EditorGUI extends javax.swing.JFrame implements DocumentListener {
         if (editor.getCurrentFilePath().equals(Editor.NEW_DOC_TITLE) || saveAs) {
             jFileChooser1.setSelectedFile(new File(editor.getCurrentFilePath()));
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                editor.setCurrentFilePath(jFileChooser1.getSelectedFile().toString());
-                if ((new File(editor.getCurrentFilePath())).exists()) {
+                if (jFileChooser1.getSelectedFile().exists()) {
                     if (msg(MSG_FILE_REPLACE_TITLE, MSG_FILE_REPLACE, false)) {
-                        writeFile();
+                        writeFile(jFileChooser1.getSelectedFile());
                     }
                 } else {
-                    writeFile();
+                    writeFile(jFileChooser1.getSelectedFile());
                 }
 
             }
         } else {
-            writeFile();
+            writeFile(new File(editor.getCurrentFilePath()));
         }
     }
 
-    private void writeFile() throws HeadlessException {
+    private void writeFile(File f) throws HeadlessException {
         try {
-            editor.writeFile();
+            editor.writeFile(f);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }

@@ -162,10 +162,11 @@ public class Editor {
      * Guarda el documento actual en la ruta especificada por
      * getCurrentFilePath()
      *
+     * @param f
      * @throws java.io.IOException
      */
-    protected void writeFile() throws IOException {
-        File temp, f;
+    protected void writeFile(File f) throws IOException {
+        File temp;
         boolean rename, delete;
         BufferedWriter writer;
 
@@ -174,7 +175,6 @@ public class Editor {
         jTextArea1.write(writer);
         writer.close();
 
-        f = new File(getCurrentFilePath());
         delete = f.delete();
         if (!delete && f.exists()) {
             throw new IOException("Error al escribir el archivo");
@@ -185,6 +185,7 @@ public class Editor {
             throw new IOException("No se ha renombrado el archivo temporal");
         }
 
+        setCurrentFilePath(f.toString());
         hasChanged = false;
         eGUI.setTitle(currentFilePath + " | " + FORM_TITLE);
         jLabelStstus.setText("Guardado en " + getCurrentFilePath());
